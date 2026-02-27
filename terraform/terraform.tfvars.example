@@ -1,0 +1,3 @@
+aws_region = "us-east-1"
+availability_target = 99.9
+auto_recovery_target = 95

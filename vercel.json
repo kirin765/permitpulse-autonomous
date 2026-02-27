@@ -1,0 +1,26 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/v1",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/v1/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/admin",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/api/index"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/v1/internal/cron/daily-maintenance",
+      "schedule": "0 3 * * *"
+    }
+  ]
+}
