@@ -16,5 +16,6 @@ urlpatterns = [
         name="daily-maintenance-cron",
     ),
     path("system/autonomy-status", views.AutonomyStatusView.as_view(), name="autonomy-status"),
+    path("system/supabase-status", views.SupabaseStatusView.as_view(), name="supabase-status"),
     path("system/slo", views.SLOView.as_view(), name="system-slo"),
 ]

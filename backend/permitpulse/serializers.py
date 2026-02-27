@@ -127,3 +127,9 @@ class DailyMaintenanceResultSerializer(serializers.Serializer):
     slo_metrics_count = serializers.IntegerField()
     recovery_actions = serializers.IntegerField()
     status = serializers.ChoiceField(choices=["healthy", "degraded"])
+
+
+class SupabaseStatusSerializer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=["connected", "degraded", "not_configured"])
+    db = serializers.JSONField()
+    rest = serializers.JSONField()

@@ -108,6 +108,24 @@ class PermitPulseAPITest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("city_snapshots", response.data)
 
+    def test_supabase_status_endpoint_not_configured(self):
+        response = self.client.get("/api/v1/system/supabase-status")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(response.data["status"], {"not_configured", "degraded", "connected"})
+        self.assertIn("db", response.data)
+        self.assertIn("rest", response.data)
+
+    @patch("permitpulse.views.supabase_status_payload")
+    def test_supabase_status_endpoint_mocked_connected(self, supabase_status_payload_mock):
+        supabase_status_payload_mock.return_value = {
+            "status": "connected",
+            "db": {"configured": True, "connected": True, "host": "example.supabase.co", "error": ""},
+            "rest": {"configured": True, "reachable": True, "status_code": 200, "latency_ms": 123, "error": ""},
+        }
+        response = self.client.get("/api/v1/system/supabase-status")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["status"], "connected")
+
     @override_settings(CRON_SHARED_SECRET="test-cron-secret")
     @patch("permitpulse.views.run_daily_maintenance")
     def test_daily_maintenance_requires_auth(self, run_daily_maintenance_mock):

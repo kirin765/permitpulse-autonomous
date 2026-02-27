@@ -22,6 +22,7 @@ PermitPulse is a zero-human-ops STR compliance intelligence platform deployed as
 - `POST /api/v1/billing/checkout-session`
 - `POST /api/v1/billing/webhook`
 - `GET /api/v1/system/autonomy-status`
+- `GET /api/v1/system/supabase-status`
 - `GET /api/v1/system/slo`
 
 ## New internal endpoint
@@ -85,6 +86,12 @@ Example Supabase DB URL:
 
 ```bash
 postgresql://postgres.<project-ref>:<password>@aws-0-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require
+```
+
+Runtime check endpoint:
+
+```bash
+GET /api/v1/system/supabase-status
 ```
 
 ## Cron

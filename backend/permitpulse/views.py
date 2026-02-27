@@ -21,12 +21,14 @@ from permitpulse.serializers import (
     DailyMaintenanceResultSerializer,
     PortfolioImportSerializer,
     RuleSnapshotSerializer,
+    SupabaseStatusSerializer,
 )
 from permitpulse.services.billing import create_checkout_session, process_webhook
 from permitpulse.services.decision_engine import DecisionInput, QuotaExceededError, run_address_decision
 from permitpulse.services.maintenance import run_daily_maintenance
 from permitpulse.services.runbook import autonomy_status_payload
 from permitpulse.services.slo import latest_slo_summary
+from permitpulse.services.supabase import supabase_status_payload
 
 
 def _resolve_organization(request: Request) -> Optional[Organization]:
@@ -174,6 +176,13 @@ class AutonomyStatusView(APIView):
 class SLOView(APIView):
     def get(self, request: Request) -> Response:
         return Response(latest_slo_summary())
+
+
+class SupabaseStatusView(APIView):
+    def get(self, request: Request) -> Response:
+        serializer = SupabaseStatusSerializer(data=supabase_status_payload())
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data)
 
 
 class DailyMaintenanceCronView(APIView):
